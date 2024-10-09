@@ -1,19 +1,38 @@
+import { useRef } from "react";
+import { useDrop } from "react-dnd";
+import { throttle } from "throttle-debounce-ts";
+import { useItemDrag } from "./utils/useItemDrag";
 import { ColumnContainer, ColumnTitle, CardContainer } from "./styles";
 import { useAppState } from "./state/AppStateContext";
 import { Card } from "./Card";
 import { AddNewItem } from "./AddNewItem";
-import { addTask } from "./state/actions";
+import { addTask, moveList } from "./state/actions";
+
 type ColumnProps = {
 	text: string;
 	id: string;
 };
 
 export const Column = ({ text, id }: ColumnProps) => {
-	const { getTasksByListId, dispatch } = useAppState();
+	const { draggedItem, getTasksByListId, dispatch } = useAppState();
 	const tasks = getTasksByListId(id);
 
+	// drag column implementation
+	const ref = useRef<HTMLDivElement>(null); // specify the drag target
+	const [, drop] = useDrop({
+		accept: "COLUMN",
+		hover: throttle(200, () => {
+			if (!draggedItem) return;
+			if (draggedItem.type === "COLUMN") {
+				if (draggedItem.id === id) return;
+				dispatch(moveList(draggedItem.id, id));
+			}
+		}),
+	});
+	const { drag } = useItemDrag({ type: "COLUMN", id, text });
+	drag(drop(ref));
 	return (
-		<ColumnContainer>
+		<ColumnContainer ref={ref}>
 			<ColumnTitle>{text}</ColumnTitle>
 			{tasks.map((task) => (
 				<Card text={task.text} key={task.id} id={task.id} />
