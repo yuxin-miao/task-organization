@@ -3,4 +3,10 @@ export type ColumnDragItem = {
 	text: string;
 	type: "COLUMN";
 };
-export type DragItem = ColumnDragItem;
+export type CardDragItem = {
+	id: string;
+	text: string;
+	columnId: string;
+	type: "CARD";
+};
+export type DragItem = ColumnDragItem | CardDragItem;
