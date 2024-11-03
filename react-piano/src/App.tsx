@@ -5,7 +5,7 @@ import styles from "./App.module.css";
 export const App = () => {
   return (
     <div className={styles.app}>
-      <Logo />
+      {/* <Logo /> */}
       <main className={styles.content}>
         <Main />
       </main>
