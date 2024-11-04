@@ -1,7 +1,42 @@
-type RootState = {};
-type Action = {
-  type: string;
+import { current } from "@reduxjs/toolkit";
+import { Action, UPDATE_STROKE, BEGIN_STROKE, END_STROKE } from "./actions";
+import { RootState } from "./utils/type";
+const initialState: RootState = {
+  currentStroke: { points: [], color: "#000" },
+  strokes: [],
 };
-export const rootReducer = (state: RootState = {}, action: Action) => {
-  return state;
+export const rootReducer = (
+  state: RootState = initialState,
+  action: Action
+) => {
+  switch (action.type) {
+    case BEGIN_STROKE: {
+      return {
+        ...state,
+        currentStroke: {
+          ...state.currentStroke,
+          points: [action.payload],
+        },
+      };
+    }
+    case UPDATE_STROKE: {
+      return {
+        ...state,
+        currentStroke: {
+          ...state.currentStroke,
+          points: [...state.currentStroke.points, action.payload],
+        },
+      };
+    }
+    case END_STROKE: {
+      if (!state.currentStroke.points.length) return state;
+      return {
+        ...state,
+        currentStrokes: { ...state.currentStroke, points: [] },
+        strokes: [...state.strokes, state.currentStroke],
+      };
+    }
+    default:
+      return state;
+  }
 };
