@@ -1,19 +1,27 @@
 import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCanvas, setCanvasSize } from "./utils/canvasUtils";
+import { clearCanvas, setCanvasSize, drawStroke } from "./utils/canvasUtils";
 import { beginStroke, updateStroke, endStroke } from "./actions";
 import React, { useRef, useEffect } from "react";
 import { RootState } from "./utils/type";
+import { currentStrokeSelector } from "./rootReducer";
 const WIDTH = 1024;
 const HEIGHT = 768;
 function App() {
+  const currentStroke = useSelector(currentStrokeSelector);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const getCanvasWithContext = (canvas = canvasRef.current) => {
     return { canvas, context: canvas?.getContext("2d") };
   };
-  const isDrawing = useSelector<RootState>(
-    (state) => !!state.currentStroke.points.length
-  );
+  const isDrawing = !!currentStroke.points.length;
+
+  useEffect(() => {
+    const { context } = getCanvasWithContext();
+    if (!context) return;
+    requestAnimationFrame(() =>
+      drawStroke(context, currentStroke.points, currentStroke.color)
+    );
+  }, [currentStroke]);
 
   const dispatch = useDispatch();
   const startDrawing = ({
@@ -55,6 +63,7 @@ function App() {
         onMouseDown={startDrawing}
         onMouseOut={endDrawing}
         onMouseUp={endDrawing}
+        onMouseLeave={endDrawing}
         onMouseMove={draw}
       />
     </div>

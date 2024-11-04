@@ -1,9 +1,12 @@
-import { current } from "@reduxjs/toolkit";
 import { Action, UPDATE_STROKE, BEGIN_STROKE, END_STROKE } from "./actions";
-import { RootState } from "./utils/type";
+
+import { RootState, Stroke } from "./utils/type";
 const initialState: RootState = {
   currentStroke: { points: [], color: "#000" },
   strokes: [],
+};
+export const currentStrokeSelector = (state: RootState): Stroke => {
+  return state.currentStroke;
 };
 export const rootReducer = (
   state: RootState = initialState,
@@ -32,7 +35,7 @@ export const rootReducer = (
       if (!state.currentStroke.points.length) return state;
       return {
         ...state,
-        currentStrokes: { ...state.currentStroke, points: [] },
+        currentStroke: { ...state.currentStroke, points: [] },
         strokes: [...state.strokes, state.currentStroke],
       };
     }
