@@ -4,10 +4,17 @@ import { clearCanvas, setCanvasSize, drawStroke } from "./utils/canvasUtils";
 import { beginStroke, updateStroke, endStroke } from "./actions";
 import { ColorPanel } from "./shared/ColorPanel";
 import React, { useRef, useEffect } from "react";
-import { currentStrokeSelector } from "./rootReducer";
+import {
+  currentStrokeSelector,
+  historyIndexSelector,
+  strokesSelector,
+} from "./rootReducer";
+import { EditPanel } from "./shared/EditPanel";
 const WIDTH = 1024;
 const HEIGHT = 768;
 function App() {
+  const historyIndex = useSelector(historyIndexSelector);
+  const strokes = useSelector(strokesSelector);
   const currentStroke = useSelector(currentStrokeSelector);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const getCanvasWithContext = (canvas = canvasRef.current) => {
@@ -22,6 +29,16 @@ function App() {
       drawStroke(context, currentStroke.points, currentStroke.color)
     );
   }, [currentStroke]);
+  useEffect(() => {
+    const { canvas, context } = getCanvasWithContext();
+    if (!context || !canvas) return;
+    requestAnimationFrame(() => {
+      clearCanvas(canvas);
+      strokes.slice(0, strokes.length - historyIndex).forEach((stroke) => {
+        drawStroke(context, stroke.points, stroke.color);
+      });
+    });
+  }, [historyIndex]);
 
   const dispatch = useDispatch();
   const startDrawing = ({
@@ -58,6 +75,7 @@ function App() {
           <button aria-label="Close"></button>
         </div>
       </div>
+      <EditPanel />
       <ColorPanel />
       <canvas
         ref={canvasRef}
