@@ -2,8 +2,8 @@ import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCanvas, setCanvasSize, drawStroke } from "./utils/canvasUtils";
 import { beginStroke, updateStroke, endStroke } from "./actions";
+import { ColorPanel } from "./shared/ColorPanel";
 import React, { useRef, useEffect } from "react";
-import { RootState } from "./utils/type";
 import { currentStrokeSelector } from "./rootReducer";
 const WIDTH = 1024;
 const HEIGHT = 768;
@@ -58,6 +58,7 @@ function App() {
           <button aria-label="Close"></button>
         </div>
       </div>
+      <ColorPanel />
       <canvas
         ref={canvasRef}
         onMouseDown={startDrawing}
