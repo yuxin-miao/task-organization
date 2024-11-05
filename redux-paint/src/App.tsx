@@ -74,7 +74,7 @@ function App() {
   return (
     <div className="window">
       <div className="title-bar">
-        <div className="title-bar-text">Reduc Paint</div>
+        <div className="title-bar-text">Paint</div>
         <div className="title-bar-controls">
           <button aria-label="Close"></button>
         </div>
