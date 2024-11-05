@@ -26,4 +26,4 @@ The following libraries are chosen
 - [use-immer](https://immerjs.github.io/immer/) for handling immutable data structures
 ### Features
 The web application allows user to create new lists and tasks, also drag and drop them.
-![Sc](../documentation/sc-trello-clone.png)
+![Sc-trello](../documentation/sc-trello-clone.png)
