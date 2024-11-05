@@ -7,18 +7,20 @@ import {
   endStroke,
 } from "./modules/currentStroke/actions";
 import { ColorPanel } from "./shared/ColorPanel";
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { EditPanel } from "./shared/EditPanel";
 import { historyIndexSelector } from "./modules/historyIndex/reducer";
 import { strokesSelector } from "./modules/strokes/reducer";
 import { currentStrokeSelector } from "./modules/currentStroke/reducer";
+import { useCanvas } from "./CanvasContext";
+import { FilePanel } from "./shared/FilePanel";
 const WIDTH = 1024;
 const HEIGHT = 768;
 function App() {
   const historyIndex = useSelector(historyIndexSelector);
   const strokes = useSelector(strokesSelector);
   const currentStroke = useSelector(currentStrokeSelector);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useCanvas();
   const getCanvasWithContext = (canvas = canvasRef.current) => {
     return { canvas, context: canvas?.getContext("2d") };
   };
@@ -79,6 +81,7 @@ function App() {
       </div>
       <EditPanel />
       <ColorPanel />
+      <FilePanel />
       <canvas
         ref={canvasRef}
         onMouseDown={startDrawing}
