@@ -19,7 +19,7 @@ html {
 *,
 *::before,
 *::after {
-	box-sizing: default;
+	box-sizing: border-box;
 }
 
 html,
