@@ -23,3 +23,5 @@ The following libraries are chosen
 ### Features
 The web application shows a drawing canvas with Windows XP style. It allows user to pick up different colors through color panel, undo or redo the strokes, and save the drawing locally.
 ![Sc-paint](../documentation/sc-paint.png)
+
+The state management could be improved by using redux/toolkit.

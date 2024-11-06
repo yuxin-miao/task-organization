@@ -1,11 +1,8 @@
 import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCanvas, setCanvasSize, drawStroke } from "./utils/canvasUtils";
-import {
-  beginStroke,
-  updateStroke,
-  endStroke,
-} from "./modules/currentStroke/actions";
+import { beginStroke, updateStroke } from "./modules/currentStroke/actions";
+import { endStroke } from "./modules/sharedAction";
 import { ColorPanel } from "./shared/ColorPanel";
 import React, { useEffect } from "react";
 import { EditPanel } from "./shared/EditPanel";
@@ -49,15 +46,15 @@ function App() {
     nativeEvent,
   }: React.MouseEvent<HTMLCanvasElement>) => {
     const { offsetX, offsetY } = nativeEvent;
-    dispatch(beginStroke(offsetX, offsetY));
+    dispatch(beginStroke({ x: offsetX, y: offsetY }));
   };
   const draw = ({ nativeEvent }: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawing) return;
     const { offsetX, offsetY } = nativeEvent;
-    dispatch(updateStroke(offsetX, offsetY));
+    dispatch(updateStroke({ x: offsetX, y: offsetY }));
   };
   const endDrawing = () => {
-    if (isDrawing) dispatch(endStroke(historyIndex, currentStroke));
+    if (isDrawing) dispatch(endStroke({ historyIndex, stroke: currentStroke }));
   };
 
   useEffect(() => {
