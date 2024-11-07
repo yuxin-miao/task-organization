@@ -1,14 +1,14 @@
 import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCanvas, setCanvasSize, drawStroke } from "./utils/canvasUtils";
-import { beginStroke, updateStroke } from "./modules/currentStroke/actions";
+import { beginStroke, updateStroke } from "./modules/currentStroke/slice";
 import { endStroke } from "./modules/sharedAction";
 import { ColorPanel } from "./shared/ColorPanel";
 import React, { useEffect } from "react";
 import { EditPanel } from "./shared/EditPanel";
-import { historyIndexSelector } from "./modules/historyIndex/reducer";
-import { strokesSelector } from "./modules/strokes/reducer";
-import { currentStrokeSelector } from "./modules/currentStroke/reducer";
+import { historyIndexSelector } from "./modules/historyIndex/slice";
+import { strokesSelector } from "./modules/strokes/slice";
+import { currentStrokeSelector } from "./modules/currentStroke/slice";
 import { useCanvas } from "./CanvasContext";
 import { FilePanel } from "./shared/FilePanel";
 const WIDTH = 1024;

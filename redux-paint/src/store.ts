@@ -4,9 +4,9 @@ import {
 } from "redux-devtools-extension";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import { logger } from "redux-logger";
-import { reducer as historyIndex } from "./modules/historyIndex/reducer";
-import { reducer as currentStroke } from "./modules/currentStroke/reducer";
-import { reducer as strokes } from "./modules/strokes/reducer";
+import { currentStroke } from "./modules/currentStroke/slice";
+import historyIndex from "./modules/historyIndex/slice";
+import strokes from "./modules/strokes/slice";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore(
